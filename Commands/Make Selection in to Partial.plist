@@ -6,7 +6,7 @@
 	<string>saveModifiedFiles</string>
 	<key>command</key>
 	<string>export RUBYLIB="$TM_BUNDLE_SUPPORT/lib:$RUBYLIB"
-"ruby18" -- "${TM_BUNDLE_SUPPORT}/bin/create_partial_from_selection.rb"
+"ruby" -- "${TM_BUNDLE_SUPPORT}/bin/create_partial_from_selection.rb"
 </string>
 	<key>fallbackInput</key>
 	<string>line</string>

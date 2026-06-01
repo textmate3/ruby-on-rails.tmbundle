@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby18
+#!/usr/bin/env ruby
 
 # Copyright:
 #   (c) 2006 InquiryLabs, Inc.

@@ -7,7 +7,7 @@
 	<key>command</key>
 	<string>export RUBYLIB="$TM_BUNDLE_SUPPORT/lib:$RUBYLIB"
 #"${TM_RUBY:=ruby}" -- "${TM_BUNDLE_SUPPORT}/bin/generate.rb" &amp;&gt;/dev/null &amp;
-"ruby18" -- "${TM_BUNDLE_SUPPORT}/bin/generate.rb"
+"ruby" -- "${TM_BUNDLE_SUPPORT}/bin/generate.rb"
 </string>
 	<key>input</key>
 	<string>none</string>
