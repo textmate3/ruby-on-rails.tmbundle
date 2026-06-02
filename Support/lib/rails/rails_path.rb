@@ -216,7 +216,7 @@ class RailsPath
     controller_names = controller_name_possibles_modified_for(type)
     if controller_names.is_a?(Array)
       for name in controller_names
-        return name if File.exists?(File.join(base_path, name + extn))
+        return name if File.exist?(File.join(base_path, name + extn))
       end
       controller_names = controller_names.first
     end

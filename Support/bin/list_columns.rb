@@ -77,13 +77,13 @@ module TextMate
     end
    
     def cache
-      Dir.mkdir(CACHE_DIR) unless File.exists?(CACHE_DIR)
+      Dir.mkdir(CACHE_DIR) unless File.exist?(CACHE_DIR)
       @cache ||= File.exist?(CACHE_FILE) ? YAML.load(File.read(CACHE_FILE)) : cache_attributes
     end
     
     def cache_attributes
       _cache = {}
-      File.delete(CACHE_FILE) if File.exists?(CACHE_FILE)
+      File.delete(CACHE_FILE) if File.exist?(CACHE_FILE)
 
       TextMate.call_with_progress(:title => "Contacting database", :message => "Fetching database schema...") do
         begin

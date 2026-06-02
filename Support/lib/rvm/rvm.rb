@@ -36,7 +36,7 @@ module TextMate
     
    private
     def installed?
-      @installed ||= File.exists?("#{TextMate.project_directory}/.rvmrc")
+      @installed ||= File.exist?("#{TextMate.project_directory}/.rvmrc")
     end
    
     def version
