@@ -14,7 +14,7 @@ DIR_TO_CLEAN = File.expand_path(File.dirname(__FILE__) + "/../")
 BADCHARS = /([<>\|:\*…\"\?\\“”↵—↓↵‘’¬])/
 
 def sanitize(f)
-	URI.escape(f, BADCHARS).chomp
+	URI::DEFAULT_PARSER.escape(f, BADCHARS).chomp
 end
 
 def verbose_rename (orig_name, new_name)
