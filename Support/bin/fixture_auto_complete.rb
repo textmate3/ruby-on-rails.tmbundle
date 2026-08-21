@@ -32,12 +32,12 @@ def load_referenced_fixture_file(ref)
 end
 
 def ask_for_fixture_or_exit(fixtures)
-  require "#{ENV['TM_SUPPORT_PATH']}/lib/osx/plist"
+  require "#{ENV['TM_SUPPORT_PATH']}/private/plist"
   h = fixtures.map do |f|
     {'title' => f, 'fixture' => f}
   end
   pl = {'menuItems' => h}.to_plist
-  res = OSX::PropertyList::load(`#{e_sh DIALOG} -up #{e_sh pl}`)
+  res = Plist.load(`#{e_sh DIALOG} -up #{e_sh pl}`)
   TextMate.exit_discard unless res.has_key? 'selectedMenuItem'
   res['selectedMenuItem']['fixture']
 end

@@ -2,7 +2,7 @@
 
 require "rails_bundle_tools"
 require File.join(TextMate.support_path, "lib", "escape")
-require File.join(TextMate.support_path, "lib", "osx", "plist")
+require File.join(TextMate.support_path, "private", "plist")
 
 module TextMate
   class RVM
@@ -27,7 +27,7 @@ module TextMate
         nib     = File.join(TextMate.bundle_support, "lib", "rvm", "nib", "SetGemset")
         command = "#{e_sh ENV['DIALOG']} -cmp #{e_sh parameters.to_plist} #{e_sh(nib)}"
 
-        plist = OSX::PropertyList::load(`#{command}`)
+        plist = Plist.load(`#{command}`)
         if plist['result']
           create_rvmrc "#{plist['selectedRuby']}@#{plist['result']['returnArgument']}"
         end
