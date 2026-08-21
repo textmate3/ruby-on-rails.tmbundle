@@ -12,14 +12,35 @@ module TextMate
       `open "#{url}"`
     end
 
-    # Open a file in textmate using the txmt:// protocol.  Uses 0-based line and column indices.
+    # Open a file in TextMate. Uses 0-based line and column indices.
+    #
+    # Prefers the running application's own mate binary (TM_MATE, set by
+    # TextMate for every command) so navigation stays in the app that invoked
+    # the command. The txmt:// URL scheme goes through LaunchServices, which
+    # routes to whichever installed TextMate owns the scheme and opens the
+    # wrong application on machines with more than one TextMate installed.
     def open(filename, line_number = nil, column_number = nil)
       filename = filename.filepath if filename.is_a? RailsPath
-      options = []
-      options << "url=file://#{URI::DEFAULT_PARSER.escape(filename)}"
-      options << "line=#{line_number + 1}" if line_number
-      options << "column=#{column_number + 1}" if column_number
-      open_url "txmt://open?" + options.join("&")
+      if ENV['TM_MATE']
+        system(*mate_open_command(filename, line_number, column_number))
+      else
+        options = []
+        options << "url=file://#{URI::DEFAULT_PARSER.escape(filename)}"
+        options << "line=#{line_number + 1}" if line_number
+        options << "column=#{column_number + 1}" if column_number
+        open_url "txmt://open?" + options.join("&")
+      end
+    end
+
+    # The argv for opening a file via the running application's mate binary.
+    def mate_open_command(filename, line_number = nil, column_number = nil)
+      command = [ENV['TM_MATE']]
+      if line_number
+        selection = (line_number + 1).to_s
+        selection += ":#{column_number + 1}" if column_number
+        command << "--line=#{selection}"
+      end
+      command << filename
     end
 
     # Always return something, or nil, for selected_text
