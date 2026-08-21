@@ -30,7 +30,7 @@ module TextMate
   class <<self
     TM_VARIABLE_DEFAULTS.each_pair do |key, value|
       eval "@@#{key} = %q{#{value}}"
-      eval "def #{key}; @@#{key} end" unless TextMate.methods.include?(key.to_s)
+      eval "def #{key}; @@#{key} end" unless TextMate.respond_to?(key)
       eval "def #{key}=(v); @@#{key} = v end"
     end
 
