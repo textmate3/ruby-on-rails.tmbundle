@@ -1,17 +1,19 @@
-# Notes — test suite modernization (2026-08-20)
+# Notes from test suite modernization (2026-08-20)
 
-Findings from modernizing this bundle's test suites (the working pattern is described in `taskmate.tmbundle/_NOTES.md`).
+Findings from modernizing this bundle's test suites
 
 ## Result
 
 All suites 100% passing under Ruby 4.0.6, runnable from any working directory, individually or all at once via `rake` from the bundle root:
 
-    rake                                    # 27 tests, 194 assertions
-    ruby Support/test/test_rails_path.rb    # 17 tests, 105 assertions
-    ruby Support/test/test_buffer.rb        #  5 tests,  26 assertions
-    ruby Support/test/test_generator.rb     #  5 tests,  63 assertions
+```sh
+rake                                    # 27 tests, 194 assertions
+ruby Support/test/test_rails_path.rb    # 17 tests, 105 assertions
+ruby Support/test/test_buffer.rb        #  5 tests,  26 assertions
+ruby Support/test/test_generator.rb     #  5 tests,  63 assertions
+```
 
-## What was broken, and since when
+## What was broken and since when
 
 **The headline: the mock's guard was disabled by Ruby 1.9 and the mock stomped the real code.** `text_mate_mock.rb` is designed to redirect `TextMate.env` from environment variables to class variables and to add plain accessors only for variables the real `rails/text_mate.rb` does not already wrap. The guard was `TextMate.methods.include?(key.to_s)`. `Object#methods` returned Strings in Ruby 1.8 and Symbols since 1.9, so the guard has been always-false since 2007. The mock therefore overrode the real wrappers, including `line_number`, which the real module converts to a 0-based Integer. `Buffer#find` then compared a raw String against an Integer and raised. This single broken guard accounted for all five `test_buffer` errors and all five `test_rails_path` failures. The fix is `TextMate.respond_to?(key)`.
 
