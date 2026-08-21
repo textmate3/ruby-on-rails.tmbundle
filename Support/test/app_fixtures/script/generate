@@ -1,3 +1,23 @@
 #!/usr/bin/env ruby
-require File.expand_path('../../config/boot',  __FILE__)
-require 'commands/generate'
+# A stand-in for a Rails 2.3 application's script/generate, in the spirit of
+# ruby.tmbundle's fake rvm and rbenv test fixtures. The original script booted
+# the fixture application through config/boot.rb, which cannot run on modern
+# Ruby or RubyGems. The bundle's Generator library only parses the printed
+# output, so this fake prints canned transcripts in the Rails 2.3 format
+# documented in Support/lib/rails/generate.rb.
+
+USAGE = {
+  "controller" => "Usage: script/generate controller ControllerName [options]",
+  "mailer"     => "Usage: script/generate mailer MailerName",
+  "migration"  => "Usage: script/generate migration MigrationName [field:type, field:type]",
+  "model"      => "Usage: script/generate model ModelName [field:type, field:type]",
+  "plugin"     => "Usage: script/generate plugin PluginName",
+  "scaffold"   => "Usage: script/generate scaffold ModelName [field:type, field:type]",
+}.freeze
+
+if name = ARGV.first
+  puts USAGE.fetch(name, "Usage: script/generate #{name} [args]")
+else
+  puts "Installed Generators"
+  puts "  Builtin: controller, helper, integration_test, mailer, metal, migration, model, observer, performance_test, plugin, resource, scaffold, session_migration"
+end
