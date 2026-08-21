@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper'
+require_relative 'test_helper'
 
 require 'text_mate_mock'
 require 'rails/rails_path'
