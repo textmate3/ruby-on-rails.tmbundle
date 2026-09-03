@@ -1,0 +1,17 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+      # The Rakefile's test task runs Support/test/test_*.rb with test-unit,
+      # which needs nothing outside the bundle: TextMate's environment is mocked.
+      - run: rake
