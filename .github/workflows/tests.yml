@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "4.0"
+          ruby-version: .ruby-version
       # The Rakefile's test task runs Support/test/test_*.rb with test-unit,
       # which needs nothing outside the bundle: TextMate's environment is mocked.
       - run: rake
